@@ -1,3 +1,5 @@
 rootProject.name = 'ai-pay'
 include 'pay-common'
+include 'pay-domain'
+include 'pay-dao'
 
