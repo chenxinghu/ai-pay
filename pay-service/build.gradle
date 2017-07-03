@@ -1,0 +1,58 @@
+dependencies {
+    compile "org.mybatis:mybatis-spring:1.2.1"
+    compile "org.mybatis:mybatis:3.2.3"
+    compile "com.alibaba:druid:${druidVersion}"
+    compile "mysql:mysql-connector-java:${mysqlVersion}"
+
+    compile("com.alibaba:dubbo:${dubboVersion}") {
+        exclude group: 'org.springframework'
+    }
+    compile('org.javassist:javassist:3.18.0-GA')
+
+    compile("org.apache.zookeeper:zookeeper:3.4.6") {
+        exclude group: 'junit'
+        exclude group: 'io.netty'
+        exclude group: 'org.slf4j'
+        exclude group: 'jline'
+        exclude group: 'log4j'
+    }
+
+    compile("com.101tec:zkclient:0.2") {
+        exclude group: 'junit'
+        exclude group: 'org.apache.zookeeper'
+        exclude group: 'log4j'
+    }
+
+    compile "org.apache.commons:commons-lang3:3.1"
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-context-support:${springVersion}"
+    compile "org.springframework:spring-core:${springVersion}"
+    compile "org.springframework:spring-beans:${springVersion}"
+    compile "org.springframework:spring-web:${springVersion}"
+    compile "org.springframework:spring-webmvc:${springVersion}"
+    compile "org.springframework:spring-tx:${springVersion}"
+    compile "org.springframework:spring-jdbc:${springVersion}"
+    compile "org.springmodules:spring-modules-validation:0.8"
+    compile "org.aspectj:aspectjweaver:1.8.4"
+
+    compile "org.springframework:spring-test:${springVersion}"
+    compile("org.springframework.data:spring-data-redis:1.5.0.RELEASE") {
+        exclude group: "org.springframework"
+    }
+
+    compile 'redis.clients:jedis:2.6.2'
+    compile 'dom4j:dom4j:1.6.1'
+
+    compile "taglibs:standard:1.1.2"
+    compile "javax.servlet.jsp:jsp-api:2.2"
+    compile "javax.servlet.jsp.jstl:jstl-api:1.2"
+
+    compile 'commons-dbcp:commons-dbcp:1.4'
+
+    compile 'quartz:quartz:1.5.2'
+
+    compile "com.alibaba:fastjson:${fastjsonVersion}"
+
+    testCompile "org.springframework:spring-test:${springVersion}"
+
+}
