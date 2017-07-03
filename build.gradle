@@ -1,0 +1,147 @@
+ext {
+    springVersion = '3.2.13.RELEASE'
+    druidVersion = '1.0.14'
+
+    mysqlVersion = '5.1.30'
+    dubboVersion = '2.5.3'
+    slf4jVersion = '1.7.12'
+    jacksonVersion = '1.9.13'
+    smackVersion = '4.0.6'
+    marketVersion = '0.0.4-SNAPSHOT'
+    fastjsonVersion = '1.2.6'
+}
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+
+    idea {
+        module {
+            downloadSources = true
+            downloadJavadoc = true
+        }
+    }
+
+    configurations {
+        provided
+        compile.extendsFrom provided
+        deployerJars
+
+        all*.exclude group: 'org.springframework', module: 'spring'
+        all*.exclude group: 'asm', module: 'asm'
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                configuration = configurations.deployerJars
+                snapshotRepository(url: "http://123.56.89.162:8081/nexus/content/repositories/snapshots/") {
+                    authentication(userName: "chenxinghu", password: "4774021cxh")
+                }
+                repository(url: "http://123.56.89.162:8081/nexus/content/repositories/releases/") {
+                    authentication(userName: "chenxinghu", password: "4774021cxh")
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name 'eleph-repository'
+            url 'http://123.56.89.162:8081/nexus/content/groups/public/'
+        }
+        mavenLocal()
+    }
+
+    configurations.all {
+
+
+        resolutionStrategy {
+            // check for updates every build
+            cacheChangingModulesFor 0, 'seconds'
+
+            force "junit:junit:4.12"
+            force "org.codehaus.groovy:groovy-all:2.4.4"
+
+            force "com.alibaba:fastjson:${fastjsonVersion}"
+
+            force "org.slf4j:slf4j-api:${slf4jVersion}"
+            force "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+            force "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+            force "org.slf4j:log4j-over-slf4j:${slf4jVersion}"
+            force 'log4j:log4j:1.2.17'
+
+            force "org.apache.commons:commons-lang3:3.1"
+            force "org.springframework:spring-context:${springVersion}"
+            force "org.springframework:spring-context-support:${springVersion}"
+            force "org.springframework:spring-core:${springVersion}"
+            force "org.springframework:spring-beans:${springVersion}"
+            force "org.springframework:spring-web:${springVersion}"
+            force "org.springframework:spring-webmvc:${springVersion}"
+            force "org.springframework:spring-tx:${springVersion}"
+            force "org.springframework:spring-jdbc:${springVersion}"
+            force "org.springframework:spring-aop:${springVersion}"
+            force "org.springmodules:spring-modules-validation:0.8"
+            force "org.aspectj:aspectjweaver:1.8.4"
+
+            force "org.mybatis:mybatis-spring:1.2.1"
+            force "org.mybatis:mybatis:3.2.3"
+            force "com.alibaba:druid:${druidVersion}"
+            force "mysql:mysql-connector-java:${mysqlVersion}"
+            force "org.springframework.data:spring-data-redis:1.5.0.RELEASE"
+
+            force "com.alibaba:dubbo:${dubboVersion}"
+            force "com.shangou:dubbo-trace:0.2.0-SNAPSHOT"
+            force 'redis.clients:jedis:2.6.2'
+
+        }
+    }
+
+    group 'com.aifocus'
+    version '1.0-SNAPSHOT'
+
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.5
+
+    repositories {
+        mavenCentral()
+    }
+
+
+    sourceCompatibility = 1.7
+
+    repositories {
+        jcenter()
+    }
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+        options.encoding = "UTF-8"
+
+    }
+
+}
+
+
+subprojects {
+    dependencies {
+        deployerJars "org.apache.maven.wagon:wagon-http:2.2"
+    }
+}
